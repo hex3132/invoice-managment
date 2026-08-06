@@ -1,3 +1,5 @@
+build/
+dist/
 data/
 hospital_billing.db
 __pycache__/

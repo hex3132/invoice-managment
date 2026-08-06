@@ -31,7 +31,7 @@ class HospitalPOSApp(ctk.CTk):
         self.selected_product_id = None
         self.logo_path = None
 
-        self.updater = AutoUpdater(current_version="v1.0.0", repo="your-username/your-repo-name")
+        self.updater = AutoUpdater(current_version="v1.0.0", repo="hex3132/invoice-managment")
 
         # Main Shell Container
         self.main_container = ctk.CTkFrame(self, fg_color="transparent")
@@ -68,7 +68,7 @@ class HospitalPOSApp(ctk.CTk):
         self.info_card = ctk.CTkFrame(self.top_frame, fg_color=GLASS_CARD, corner_radius=12, border_width=1, border_color="#0097B2")
         self.info_card.pack(side="left", fill="x", expand=True, padx=5)
 
-        # Single Horizontal Row Layout (row=0 for all fields)
+        # Single Horizontal Row Layout
         ctk.CTkLabel(self.info_card, text="Name *", font=("Arial", 11, "bold"), text_color="white").grid(row=0, column=0, padx=(10, 2), pady=8, sticky="w")
         self.ent_name = ctk.CTkEntry(self.info_card, placeholder_text="Mandatory Name", width=140, height=28)
         self.ent_name.grid(row=0, column=1, padx=(0, 10), pady=8)
@@ -99,7 +99,7 @@ class HospitalPOSApp(ctk.CTk):
         self.views_container = ctk.CTkFrame(self.main_container, fg_color="transparent")
         self.views_container.pack(fill="both", expand=True, padx=20, pady=5)
 
-        # POS Billing Table Panel (Glassmorphism Styled)
+        # POS Billing Table Panel
         self.pos_view = ctk.CTkFrame(self.views_container, fg_color=GLASS_CARD, corner_radius=12, border_width=1, border_color="#0097B2")
         self.pos_view.pack(fill="both", expand=True)
 
@@ -531,7 +531,7 @@ class HospitalPOSApp(ctk.CTk):
             self.logo_box.configure(image=ctk_img, text="")
 
     # -------------------------------------------------------------
-    # OLD FILE EDITOR & AUDIT LOG HISTORY (Requirement 8)
+    # OLD FILE EDITOR & AUDIT LOG HISTORY
     # -------------------------------------------------------------
     def show_old_files_history(self):
         self.toggle_settings_dropdown()

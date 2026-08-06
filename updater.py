@@ -5,8 +5,9 @@ import requests
 import subprocess
 from tkinter import messagebox
 
+# Software Version & GitHub Repository
 CURRENT_VERSION = "v1.0.0"
-GITHUB_REPO = "your-username/your-repo-name"
+GITHUB_REPO = "hex3132/invoice-managment"
 
 class AutoUpdater:
     """Safely checks GitHub Releases in a non-blocking background thread."""
@@ -16,6 +17,7 @@ class AutoUpdater:
         self.api_url = f"https://api.github.com/repos/{self.repo}/releases/latest"
 
     def check_for_updates(self, silent=True):
+        """Spawns a daemon thread to check updates without freezing Tkinter UI."""
         thread = threading.Thread(target=self._check_logic, args=(silent,), daemon=True)
         thread.start()
 
@@ -28,7 +30,7 @@ class AutoUpdater:
                 if latest and latest != self.current_version:
                     ans = messagebox.askyesno(
                         "Update Available!",
-                        f"New version ({latest}) available!\nCurrent: {self.current_version}.\nDownload and install now?"
+                        f"New version ({latest}) available!\nCurrent: {self.current_version}.\n\nDownload and install now?"
                     )
                     if ans:
                         self._download_and_install(data)
@@ -44,17 +46,19 @@ class AutoUpdater:
         assets = release_data.get("assets", [])
         exe_asset = next((a for a in assets if a.get("name", "").endswith(".exe")), None)
         if not exe_asset:
-            messagebox.showerror("Error", "No installer asset found.")
+            messagebox.showerror("Error", "No installer (.exe) asset found in the latest release.")
             return
 
         try:
-            messagebox.showinfo("Downloading", "Downloading update in background...")
+            messagebox.showinfo("Downloading", "Downloading update in background... Please wait.")
             r = requests.get(exe_asset["browser_download_url"], stream=True)
             path = os.path.join(os.getcwd(), exe_asset["name"])
+            
             with open(path, "wb") as f:
                 for chunk in r.iter_content(chunk_size=8192):
                     f.write(chunk)
             
+            # Execute Inno Setup installer in silent mode and exit app
             subprocess.Popen([path, "/SILENT"])
             sys.exit(0)
         except Exception as e:
