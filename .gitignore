@@ -1,0 +1,5 @@
+data/
+hospital_billing.db
+__pycache__/
+*.exe
+print_invoice.html
